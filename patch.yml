@@ -4,7 +4,12 @@
   roles:
     - { role: ospatch }
 
-- name: Patching host sysmtem (proxmox)
+- name: Patching host system (proxmox)
   hosts: proxmox
   roles:
     - { role: ospatch }
+
+- name: Patching docker containers
+  hosts: docker
+  roles:
+    - { role: docker }
