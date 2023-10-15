@@ -15,7 +15,7 @@ ssh-keygen -t ed25519
    sudo visudo
    $USER ALL=(ALL) NOPASSWD: ALL
 
-HOW to patch:
+How to patch:
   
   Patch servers only: ansible-playbook patch.yml
   
