@@ -23,5 +23,11 @@
   when: reboot.stat.exists
   become: True
 
+- name: Autoremove/ purge apt packages
+  apt:
+    autoremove: yes
+    purge: yes
+  become: True
+
 - name: Log on to host
   ping:
