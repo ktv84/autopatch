@@ -1,7 +1,9 @@
 # autopatch
 ## INFO
-Ansible is used for patching
-Used for patching proxmox environment VMs and applications
+- Used for patching proxmox environment VMs and applications
+- Ansible is required
+- Optional docker container patching implemented
+
 
 ## PATCH SERVER AND HOSTS CONFIGURATION
 Before using this repository you will need to create an ssh keypair and distribute the public key to the servers in the inventory list:
