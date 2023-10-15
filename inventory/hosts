@@ -6,3 +6,6 @@
 172.16.10.3 ansible_user=pro
 10.0.1.250 ansible_user=pro
 10.0.1.5 ansible_user=pro
+
+[docker]
+172.16.10.3 ansible_user=pro
