@@ -1,0 +1,5 @@
+---
+- name: Patching All Systems
+  hosts: all
+  roles:
+    - { role: ospatch }
