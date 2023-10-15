@@ -1,0 +1,15 @@
+services:
+  teamspeak_shadow:
+    container_name: teamspeak_shadow
+    image: mbentley/teamspeak
+    restart: unless-stopped
+    ports:
+      - 9988:9987/udp
+      - 30034:30033
+      - 10012:10011
+      - 41145:41144
+    volumes:
+      - /opt/docker/data/teamspeak_shadow:/data
+    environment:
+      - TS3SERVER_LICENSE=accept
+      
