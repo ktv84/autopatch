@@ -1,5 +1,10 @@
 ---
-- name: Patching All Systems
-  hosts: all
+- name: Patching VMs
+  hosts: vm
+  roles:
+    - { role: ospatch }
+
+- name: Patching host sysmtem (proxmox)
+  hosts: proxmox
   roles:
     - { role: ospatch }
