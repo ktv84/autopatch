@@ -9,8 +9,8 @@
 - name: Create directories
   file:
     path: /opt/{{ item }}
-    owner: pro
-    group: pro
+    owner: "{{ docker_user }}"
+    group: "{{ docker_user }}"
     mode: 0777
     recurse: yes
     state: directory
@@ -25,8 +25,8 @@
   copy:
     src: "{{item}}"
     dest: /opt/docker/compose/{{ item }}
-    owner: pro
-    group: pro
+    owner: "{{ docker_user }}"
+    group: "{{ docker_user }}"
     mode: 0777
   with_items:
     - teamspeak/teamspeak.yml

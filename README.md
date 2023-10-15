@@ -25,7 +25,7 @@ ssh-copy-id ansible@192.168.0.2
 ```sh
 inventory
 ```
-2. Create a file called hosts under this directory containing your hosts with with the groups proxmox, vm and docker. Example:
+And create a file called hosts under this directory containing your hosts with with the groups proxmox, vm and docker. Example:
 ```ini
 [proxmox]
 192.168.0.2 ansible_user=ansible
@@ -35,6 +35,14 @@ inventory
 
 [docker]
 192.168.0.3 ansible_user=ansible
+```
+2. Create directory in this repository
+```sh
+group_vars
+```
+And create a file called docker under this directory containing the username used by the docker service. Example:
+```ini
+docker_user: docker
 ```
 
 ## HOW TO PATCH USING ANSIBLE: 
