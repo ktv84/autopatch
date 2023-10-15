@@ -1,1 +1,27 @@
 ---
+- name: Upgrade all OS packages
+  apt:
+    upgrade: dist
+    force_apt_get: True
+  become: True
+  
+- name: Check if system needs reboot
+  register: reboot
+  stat:
+    path: /var/run/reboot-required
+    get_md5: False
+  become: True
+
+- name: Reboot system if needed
+  reboot:
+    msg: "Rebooting the system"
+    connect_timeout: 10
+    reboot_timeout: 300
+    pre_reboot_delay: 0
+    post_reboot_delay: 30
+    test_command: uptime
+  when: reboot.stat.exists
+  become: True
+
+- name: Log on to host
+  ping:
