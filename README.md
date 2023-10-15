@@ -15,3 +15,6 @@ ssh-keygen -t ed25519
    sudo visudo
    $USER ALL=(ALL) NOPASSWD: ALL
 
+HOW to patch:
+Patch servers only: ansible-playbook patch.yml
+Patch servers and force a docker container upgrade: ansible-playbook patch.yml -e docker=true
