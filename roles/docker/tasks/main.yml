@@ -1,0 +1,54 @@
+---
+- name: Ensure docker and tools are installed
+  apt:
+    pkg:
+      - docker
+      - docker-compose
+  become: True
+
+- name: Create directories
+  file:
+    path: /opt/{{ item }}
+    owner: pro
+    group: pro
+    mode: 0777
+    recurse: yes
+    state: directory
+  with_items:
+    - docker
+    - docker/compose
+    - docker/compose/teamspeak
+    - docker/compose/teamspeak_shadow
+  become: True
+
+- name: Copy/ install docker compose files for docker application configuration
+  copy:
+    src: "{{item}}"
+    dest: /opt/docker/compose/{{ item }}
+    owner: pro
+    group: pro
+    mode: 0777
+  with_items:
+    - teamspeak/teamspeak.yml
+    - teamspeak_shadow/teamspeak_shadow.yml
+
+- name: Run docker-compose commands (container upgrade commands)
+  block:
+    - name: Shut down containers before patching
+      shell: docker-compose -f /opt/docker/compose/{{ item }}/{{ item }}.yml down
+      with_items:
+        - teamspeak
+        - teamspeak_shadow
+    - name: Pull new containers from external repository
+      shell: docker-compose -f /opt/docker/compose/{{ item }}/{{ item }}.yml pull
+      with_items:
+        - teamspeak
+        - teamspeak_shadow
+
+    - name: Power up containers
+      shell: docker-compose -f /opt/docker/compose/{{ item }}/{{ item }}.yml up -d
+      with_items:
+        - teamspeak
+        - teamspeak_shadow
+  become: True
+  when: docker is defined
