@@ -1,0 +1,53 @@
+- name: Create directories compose
+  file:
+    path: /opt/{{ item }}
+    owner: "{{ docker_user }}"
+    group: "{{ docker_user }}"
+    mode: 0777
+    recurse: yes
+    state: directory
+  with_items:
+    - docker/compose/netbootxyz
+  become: True
+
+- name: Create directories data
+  file:
+    path: /opt/{{ item }}
+    owner: "{{ docker_user }}"
+    group: "{{ docker_user }}"
+    mode: 0777
+    recurse: yes
+    state: directory
+  with_items:
+    - docker/data/netbootxyz
+    - docker/data/netbootxyz/config
+    - docker/data/netbootxyz/assets
+  become: True
+
+- name: Copy/ install docker compose files for docker application configuration
+  copy:
+    src: "{{item}}"
+    dest: /opt/docker/compose/{{ item }}
+    owner: "{{ docker_user }}"
+    group: "{{ docker_user }}"
+    mode: 0777
+  with_items:
+    - netbootxyz/netbootxyz.yml
+
+- name: Run docker-compose commands (container upgrade commands)
+  block:
+    - name: Shut down containers before patching
+      shell: docker-compose -f /opt/docker/compose/{{ item }}/{{ item }}.yml down
+      with_items:
+        - netbootxyz
+    - name: Pull new containers from external repository
+      shell: docker-compose -f /opt/docker/compose/{{ item }}/{{ item }}.yml pull
+      with_items:
+        - netbootxyz
+
+    - name: Power up containers
+      shell: docker-compose -f /opt/docker/compose/{{ item }}/{{ item }}.yml up -d
+      with_items:
+        - netbootxyz
+  become: True
+  when: docker is defined
