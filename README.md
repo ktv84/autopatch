@@ -35,12 +35,15 @@ And create a file called hosts under this directory containing your hosts with w
 
 [docker]
 192.168.0.3 ansible_user=ansible
+
+[dockerint]
+192.168.0.4
 ```
 2. Create directory in this repository
 ```sh
 group_vars
 ```
-And create a file called docker under this directory containing the username used by the docker service. Example:
+And create a file called docker and dockerint under this directory containing the username used by the docker service. Example:
 ```ini
 docker_user: docker
 ```
@@ -51,7 +54,10 @@ Patch servers only:
 ansible-playbook patch.yml
 ```
   
-Patch servers and force a docker container upgrade (when docker host is not rebooted):
+Patch servers and force a docker container upgrade:
+This needs to be run in the following scenarios:
+- When host OS is not rebootet and containers need an upgrade (pull from remote)
+- When you have a new container or compose configuration you need to apply
 ```sh
 ansible-playbook patch.yml -e docker=true
 ```
