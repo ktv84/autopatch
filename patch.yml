@@ -10,6 +10,6 @@
     - { role: ospatch }
 
 - name: Patching docker containers
-  hosts: docker
+  hosts: docker,dockerint
   roles:
     - { role: docker }
